@@ -136,7 +136,6 @@ public class KolorowanieKrawedziGrafu extends GAStringsSeq {
         try {
 
             String plikGraf1 = "src/com/isk/kkg/dane/graf_1";
-            String plikGraf2 = "src/com/isk/kkg/dane/2016_04_06-18_51_05.txt";
             
             Graf graf = new Graf(new File(plikGraf1));
             System.out.println(graf.toString());
