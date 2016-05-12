@@ -18,13 +18,13 @@ public class GrafGenerator {
 	 * For example for wierzcholkiBottomLimit = 0.3 and wierzcholkiUpperLimit = 0.6 and krawedzie = 100,
 	 * the number of vertices will be between 30 and 60;
      */
-    private static final double wierzcholkiDolnyLimit = 0.5;
-    private static final double wierzcholkiGornyLimit = 0.5;
+    private static final double wierzcholkiDolnyLimit = 0.3;
+    private static final double wierzcholkiGornyLimit = 0.3;
 
     public static void main(String[] args) throws IOException {
 
-        File plik = new File("src/com/isk/kkg/dane/graf_1");
-        GrafGenerator.krawedzie = 200;
+        File plik = new File("src/com/isk/kkg/dane/graf_2");
+        GrafGenerator.krawedzie = 500;
         
         plik.createNewFile();
         if (plik.exists()) {

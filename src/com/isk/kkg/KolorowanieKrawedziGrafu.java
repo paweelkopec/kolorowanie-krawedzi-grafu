@@ -51,10 +51,16 @@ public class KolorowanieKrawedziGrafu extends GAStringsSeq {
         ChromStrings chromosome = (ChromStrings) this.getChromosome(iChromIndex);
         int uzyteKolory = liczbaUzytychKolorow(chromosome);
         int reprezentacja  = this.liczbaPrzyleglychKrawedziTakiegoSamegoKoloru(chromosome);
+        
+       
+        double fitness;
         if(reprezentacja>0) 
-            return  1.0/reprezentacja;
+            fitness =  1.0/reprezentacja;
         else
-            return  1 + (1.0/uzyteKolory);
+            fitness =  1 + (1.0/uzyteKolory);
+        
+        System.out.println("Fitness: "+fitness);
+        return fitness;
         
     }
 
@@ -107,13 +113,11 @@ public class KolorowanieKrawedziGrafu extends GAStringsSeq {
         }
         return count;
     }
-
     /**
-     * Returns number of time each color in array has repeated itself.
-     *
-     * @param array of colors adjacent to given vertex
-     * @param number of colors in array
-     * @return number of repetitions
+     * Zwraca liczba razy ile dany kolor powtorzyl
+     * @param tab
+     * @param n
+     * @return 
      */
     private int numberOfRepetitions(int tab[], int n) {
         int rep = 0;
@@ -135,16 +139,18 @@ public class KolorowanieKrawedziGrafu extends GAStringsSeq {
         System.out.println("Kolorowanie krawedzi grafu uruchomione");
         try {
 
-            String plikGraf1 = "src/com/isk/kkg/dane/graf_1";
+            String plikGraf1 = "src/com/isk/kkg/dane/graf_100_40";
+            String plikGraf2 = "src/com/isk/kkg/dane/graf_200_60";
+            String plikGraf3 = "src/com/isk/kkg/dane/graf_500_150";
             
             Graf graf = new Graf(new File(plikGraf1));
             System.out.println(graf.toString());
             Konfiguracja config = new Konfiguracja();
 
-            config.setPopulation(500);
-            config.setMaxGenerations(1000);
-            config.setCrossoverProbability(0.7);
-            config.setMutationProbablity(0.2);
+            config.setPopulation(700);
+            config.setMaxGenerations(150);
+            config.setCrossoverProbability(0.8);
+            config.setMutationProbablity(0.02);
             config.setRandomSelectionChance(10);
 
             KolorowanieKrawedziGrafu kkg = new KolorowanieKrawedziGrafu(config, graf);            
