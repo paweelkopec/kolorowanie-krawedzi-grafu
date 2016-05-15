@@ -143,7 +143,7 @@ public class KolorowanieKrawedziGrafu extends GAStringsSeq {
             String plikGraf2 = "src/com/isk/kkg/dane/graf_200_60";
             String plikGraf3 = "src/com/isk/kkg/dane/graf_500_150";
             
-            Graf graf = new Graf(new File(plikGraf3));
+            Graf graf = new Graf(new File(plikGraf1));
             System.out.println(graf.toString());
             Konfiguracja config = new Konfiguracja();
 
