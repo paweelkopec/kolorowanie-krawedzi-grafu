@@ -39,6 +39,8 @@ public abstract class GA implements Runnable
 
     /** maximum generations to evolve */
     int maxGenerations; 
+    
+    int finalGeneration;
 
     /** number of prelim generations to evolve. Set to zero to disable */
     int numPrelimRuns; 
@@ -388,7 +390,7 @@ public abstract class GA implements Runnable
 
         System.out.println("GEN " + (iGen + 1) + " AVG FITNESS = " + this.genAvgFitness[iGen-1] +
                            " AVG DEV = " + this.genAvgDeviation[iGen-1]);
-
+        finalGeneration = iGen;
         addChromosomesToLog(iGen, 10); //display Chromosomes to system.out
 
         computeFitnessRankings();
@@ -735,4 +737,9 @@ public abstract class GA implements Runnable
         }
         return (iResult);
     }
+    
+    public int getFinalGeneration(){
+    	return this.finalGeneration;
+    }
+    
 }

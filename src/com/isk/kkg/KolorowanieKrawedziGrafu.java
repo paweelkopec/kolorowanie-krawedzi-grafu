@@ -40,26 +40,25 @@ public class KolorowanieKrawedziGrafu extends GAStringsSeq {
                 0, //max generations per prelim run
                 conf.getMutationProbablity(), //chromosome mutation prob.
                 0, //number of decimal places in chrom
-                graf.getMozliweKolory(), //gene space (possible gene values)
+                graf.getMozliweKolory(conf.getNumberOfPossibleGeneValues()), //gene space (possible gene values)
                 Crossover.ctTwoPoint, //crossover type
                 false); //compute statisitics?
-
+        
     }
 
     public double getFitness(int iChromIndex) {
                 
         ChromStrings chromosome = (ChromStrings) this.getChromosome(iChromIndex);
         int uzyteKolory = liczbaUzytychKolorow(chromosome);
-        int reprezentacja  = this.liczbaPrzyleglychKrawedziTakiegoSamegoKoloru(chromosome);
+        int bledy  = this.liczbaPrzyleglychKrawedziTakiegoSamegoKoloru(chromosome);
         
        
         double fitness;
-        if(reprezentacja>0) 
-            fitness =  1.0/reprezentacja;
+        if(bledy>0) 
+            fitness =  1.0/bledy;
         else
-            fitness =  1 + (1.0/uzyteKolory);
+            fitness =  2 + (1.0/uzyteKolory);
         
-        System.out.println("Fitness: "+fitness);
         return fitness;
         
     }
@@ -142,26 +141,53 @@ public class KolorowanieKrawedziGrafu extends GAStringsSeq {
             String plikGraf1 = "src/com/isk/kkg/dane/graf_100_40";
             String plikGraf2 = "src/com/isk/kkg/dane/graf_200_60";
             String plikGraf3 = "src/com/isk/kkg/dane/graf_500_150";
-            
-            Graf graf = new Graf(new File(plikGraf1));
-            System.out.println(graf.toString());
+
+            Graf graf = new Graf(plikGraf1);
+            //System.out.println(graf.toString());
             Konfiguracja config = new Konfiguracja();
 
-            config.setPopulation(50);
-            config.setMaxGenerations(70);
-            config.setCrossoverProbability(5);
-            config.setMutationProbablity(6);
-            config.setRandomSelectionChance(20);
+            config.setPopulation(300);
+            config.setMaxGenerations(5000);
+            config.setCrossoverProbability(0.6);
+            config.setMutationProbablity(0.45);
+            config.setRandomSelectionChance(0.03);
+            config.setNumberOfPossibleGeneValues(graf.getStopien());
 
-            KolorowanieKrawedziGrafu kkg = new KolorowanieKrawedziGrafu(config, graf);            
+            long start = System.currentTimeMillis();
+            KolorowanieKrawedziGrafu kkg = new KolorowanieKrawedziGrafu(config, graf);
             Thread threadKkg = new Thread(kkg);
             threadKkg.start();
+            
+            threadKkg.join();
+            long end= System.currentTimeMillis();
+            long duration = (end-start)/1000;
+            System.out.println("Parametry");
+            System.out.println("Graf: " + graf.getPlikGrafu());
+            System.out.println("Liczba krawędzi: " + graf.getLiczbaKrawedzi());
+            System.out.println("Liczba wierzchołków grafu: " + graf.getLiczbaWierzcholkow());
+            System.out.println("Stopień grafu: " + graf.getStopien());
+            int deg = graf.getStopien();
+            System.out.println("Rozwiązanie optymalne: " + deg + "-" + (deg * 3 / 2));
+            System.out.println("Populacja: " + config.getPopulation());
+            System.out.println("Liczba generacji: " + config.getMaxGenerations() );
+            System.out.println("Krzyżowanie: " + config.getCrossoverProbability());
+            System.out.println("Mutacja: " + config.getMutationProbablity());
+            System.out.println("Losowy wybór: " + config.getRandomSelectionChance() + "%");
+            System.out.println("Wynik");
+            ChromStrings chrom = (ChromStrings) kkg.getFittestChromosome();
+            System.out.println("Ilość błędów w kolorowaniu: " + kkg.liczbaPrzyleglychKrawedziTakiegoSamegoKoloru(chrom));
+            System.out.println("Ilość użytych kolorów: " + kkg.liczbaUzytychKolorow(chrom));
+            System.out.println("Zakończono na generacji: " + kkg.getFinalGeneration());
+            System.out.println("Fitness: " + kkg.getFittestChromosomesFitness());
+            System.out.println("Czas: " + duration + " s");
 
         } catch (FileNotFoundException ex) {
             System.out.println("Błąd wczytywania pliku: " + ex.getMessage());
             //Logger.getLogger(KolorowanieKrawedziGrafu.class.getName()).log(Level.SEVERE, null, ex);
         } catch (GAException ex) {
             System.out.println(ex.getMessage());
+        } catch (InterruptedException ex) {
+            Logger.getLogger(KolorowanieKrawedziGrafu.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }

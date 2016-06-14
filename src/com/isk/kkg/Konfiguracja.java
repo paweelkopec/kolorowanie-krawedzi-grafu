@@ -16,7 +16,8 @@ public class Konfiguracja {
     private int randomSelectionChance;
     private int maxGenerations;
     private double mutationProbablity;
-
+    private int numberOfPossibleGeneValues;
+    
     public int getPopulation() {
         return population;
     }
@@ -37,8 +38,8 @@ public class Konfiguracja {
         return randomSelectionChance;
     }
 
-    public void setRandomSelectionChance(int randomSelectionChance) {
-        this.randomSelectionChance = randomSelectionChance;
+    public void setRandomSelectionChance(double randomSelectionChance) {
+        this.randomSelectionChance = (int)(randomSelectionChance*100);
     }
 
     public int getMaxGenerations() {
@@ -57,6 +58,11 @@ public class Konfiguracja {
         this.mutationProbablity = mutationProbablity;
     }
     
+    public void setNumberOfPossibleGeneValues(int numberOfPossibleGeneValues) {
+        this.numberOfPossibleGeneValues = numberOfPossibleGeneValues;
+    }
     
-    
+    public int getNumberOfPossibleGeneValues() {
+		return numberOfPossibleGeneValues;
+    }
 }

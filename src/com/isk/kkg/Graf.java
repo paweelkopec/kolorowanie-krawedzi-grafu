@@ -23,9 +23,12 @@ public class Graf {
     private int struktura[][];
     private String mozliweKolory[];
     private static Graf instancja;
+    private String plikGrafu;
 
-    public Graf(File file) throws FileNotFoundException {
+    public Graf(String plikGrafu) throws FileNotFoundException {
 
+        this.plikGrafu =plikGrafu;
+        File  file = new File(this.plikGrafu);
         Scanner scan = new Scanner(file);
         this.liczbaKrawedzi = scan.nextInt(); //<liczba-krawędzi>
 
@@ -41,7 +44,7 @@ public class Graf {
             }
         }
         scan.close();
-        this.generujMozliweKolory();
+        //this.generujMozliweKolory();
         this.policzLiczbeWierzcholkow();
         
         Graf.instancja = this;
@@ -61,9 +64,9 @@ public class Graf {
     /**
      * Liczba kolorow ktore mogą byc uzyte po przez generyczny algorytm
      */
-    private void generujMozliweKolory() {
-        this.mozliweKolory = new String[this.liczbaKrawedzi];
-        for (int i = 1; i <= this.liczbaKrawedzi; i++) {
+    private void generujMozliweKolory(int n) {
+        this.mozliweKolory = new String[n];
+        for (int i = 1; i <= n; i++) {
             this.mozliweKolory[i-1] = " " + i;
         }
     }
@@ -83,8 +86,11 @@ public class Graf {
         
     }
 
-    public String[] getMozliweKolory() {
+    public String[] getMozliweKolory(int n) {
+       
+        this.generujMozliweKolory(n);
         return mozliweKolory;
+        
     }
 
     public int getLiczbaKrawedzi() {
@@ -110,7 +116,30 @@ public class Graf {
     public static Graf getInstancja() {
         return instancja;
     }
+
+    public String getPlikGrafu() {
+        return plikGrafu;
+    }
     
+    public int getStopien() {
+        int highestValue = 0;
+        int temp;
+        for (int v = 1; v <= this.getLiczbaWierzcholkow(); v++) {
+            temp = 0;
+            for (int i = 0; i < this.liczbaKrawedzi; i++) {
+                if (this.struktura[1][i] == v) {
+                    temp++;
+                }
+                if (this.struktura[2][i] == v) {
+                    temp++;
+                }
+            }
+            if (temp > highestValue) {
+                highestValue = temp;
+            }
+        }
+        return highestValue;
+    }
     
     
 
