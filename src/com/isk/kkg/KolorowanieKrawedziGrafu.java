@@ -42,7 +42,7 @@ public class KolorowanieKrawedziGrafu extends GAStringsSeq {
                 0, //number of decimal places in chrom
                 graf.getMozliweKolory(conf.getNumberOfPossibleGeneValues()), //gene space (possible gene values)
                 Crossover.ctTwoPoint, //crossover type
-                false); //compute statisitics?
+                true); //compute statisitics?
         
     }
 
@@ -57,7 +57,7 @@ public class KolorowanieKrawedziGrafu extends GAStringsSeq {
         if(bledy>0) 
             fitness =  1.0/bledy;
         else
-            fitness =  2 + (1.0/uzyteKolory);
+            fitness =  1 + (1.0/uzyteKolory);
         
         return fitness;
         
@@ -142,15 +142,15 @@ public class KolorowanieKrawedziGrafu extends GAStringsSeq {
             String plikGraf2 = "src/com/isk/kkg/dane/graf_200_60";
             String plikGraf3 = "src/com/isk/kkg/dane/graf_500_150";
 
-            Graf graf = new Graf(plikGraf1);
+            Graf graf = new Graf(plikGraf3);
             //System.out.println(graf.toString());
             Konfiguracja config = new Konfiguracja();
 
-            config.setPopulation(300);
-            config.setMaxGenerations(5000);
-            config.setCrossoverProbability(0.6);
-            config.setMutationProbablity(0.45);
-            config.setRandomSelectionChance(0.03);
+            config.setPopulation(600);
+            config.setMaxGenerations(2000);
+            config.setCrossoverProbability(0.35);
+            config.setMutationProbablity(0.55);
+            config.setRandomSelectionChance(0.02);
             config.setNumberOfPossibleGeneValues(graf.getStopien());
 
             long start = System.currentTimeMillis();
